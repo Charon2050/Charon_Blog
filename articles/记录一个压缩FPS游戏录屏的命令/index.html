@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="renderer" content="webkit" />
+        <link rel="stylesheet" href="/style.css" />
+        <link rel="icon" type="image/png" href="/favicon.ico" />
+        <title>记录一个压缩FPS游戏录屏的命令</title>
+        <meta
+            name="description"
+            content="FPS游戏往往只需要看清准心周围的视野即可。可以只保留准心周边一小块画面的高画质，外围就让它压缩变糊。最终得到了2000kbps的视频，比原视频小了7倍，准心周边的画质也得到了保留。"
+        />
+    </head>
+
+    <body>
+        <script type="module" src="/components/article-page.js"></script>
+        <article-page>
+            <h1>记录一个压缩FPS游戏录屏的命令</h1>
+            <p>
+                FPS游戏视野晃动幅度大，帧数要求高，往往导致录屏产生的文件体积很大（>10000<a target="_blank" href="https://chatgpt.com/?prompt=请通俗易懂的介绍：视频码率">Kbps</a>，5分钟的视频超过370MB）。分享给别人时，别人要下载很久。
+            </p>
+            <p>
+                如果直接降低码率，又会导致画面非常模糊，很多色块。如图为强行将码率压到1600kbps的后果，几乎没法看。
+            </p>
+            <img
+                src="/articles/记录一个压缩FPS游戏录屏的命令/强行压缩码率的后果.webp"
+            />
+            <p>
+                这时想到FPS游戏往往只需要看清准心周围的视野即可。可以只保留准心周边一小块画面的高画质，外围就让它压缩变糊。
+            </p>
+            <p>
+                于是询问了Gemini，得到了这样的命令（<code>-vf</code>参数是1080p尺寸的中心区域，如果你的原视频不是1080p的，请修改此参数）：
+            </p>
+            <code>
+                ffmpeg -i input.mp4 -vf "addroi=x=720:y=405:w=480:h=270:qoffset=-20/51" -c:v libx264 -crf 40 -preset veryslow -c:a aac -b:a 128k output_roi.mp4
+            </code>
+            <p>
+                这个命令把外围画面的画质指定为40（很糊），中心一小块的质量则是大约20（比较清晰）。为了确保兼容性，用的是H.264编码封装的.mp4格式。为了得到极限的画质:体积比，把编码器调到了最慢的那一档，可能会执行很久。
+            </p>
+            <p>
+                最终得到了2000kbps的视频，比原视频小了7倍，准心周边的画质也得到了保留。
+            </p>
+            <img
+                src="/articles/记录一个压缩FPS游戏录屏的命令/使用ROI技术压缩后的视频.webp"
+            />
+            <img
+                src="/articles/记录一个压缩FPS游戏录屏的命令/直接压缩和ROI压缩的对比.webp"
+            />
+            <p>
+                当然，这种方法得到的外围画质还是很糊，影响观感。如果你不追求极小体积，可以把命令里的<code>-crf 40</code>改成<code>-crf 30</code>。30基本上处于能接受的画质了。
+            </p>
+        </article-page>
+    </body>
+</html>

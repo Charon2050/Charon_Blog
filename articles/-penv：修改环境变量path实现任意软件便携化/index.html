@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="renderer" content="webkit" />
+        <link rel="stylesheet" href="/style.css" />
+        <link rel="icon" type="image/png" href="/favicon.ico" />
+        <title>penv：修改环境变量path实现任意软件便携化</title>
+        <meta
+            name="description"
+            content=""
+        />
+    </head>
+
+    <body>
+        <script type="module" src="/components/article-page.js"></script>
+        <article-page>
+            <h1>penv：修改环境变量实现任意软件便携化</h1>
+            <article-card
+                title="penv: Run any programs in portable mode in Windows"
+                preview="在便携目录下运行程序的 Windows 脚本。&#10;https://github.com/Charon2050/penv"
+                cover="/assets/icons/github.svg"
+                link="https://github.com/Charon2050/penv">
+            </article-card>
+            <p>
+                大部分规范的软件会将配置文件、缓存等持久化信息储存在<a target="_blank" href="https://chatgpt.com/?prompt=请通俗易懂的介绍：环境变量">环境变量</a>指定的路径。因此，只要修改环境变量，就可以使软件从其它位置读写配置文件，从而实现<span title="使软件不用安装、可保留数据在多台不同的电脑间转移">便携化</span>。
+            </p>
+            <p>
+                所以我写了这样的脚本，在启动时修改常用的环境变量（只是临时的，在此脚本中生效），从而让任意软件便携化。当然，这只能对规范的软件生效，如果软件把目录写死到<code>D:/360Driver</code>之类的，自然就不会生效了。
+            </p>
+            <p>
+                看起来有点像沙盒，但是比沙盒快，没有沙盒的安全性和隔离性。比较适合用来多开软件，或者打包环境（下文会教）。
+            </p>
+            <p>
+                支持命令行使用，或者直接把可执行文件拖入。
+            </p>
+        </article-page>
+    </body>
+</html>

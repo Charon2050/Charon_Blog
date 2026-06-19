@@ -1,0 +1,23 @@
+[
+  {
+    "title": "记录一个压缩FPS游戏录屏的命令",
+    "cover": "/articles/记录一个压缩FPS游戏录屏的命令/使用ROI技术压缩后的视频.webp",
+    "preview": "FPS游戏往往只需要看清准心周围的视野即可。可以只保留准心周边一小块画面的高画质，外围就让它压缩变糊。最终得到了2000kbps的视频，比原视频小了7倍，准心周边的画质也得到了保留。",
+    "time": "2026-5-31 00:48 UTC+8",
+    "tags": "技术,FFmpeg,媒体处理,游戏,视频"
+  },
+  {
+    "title": "Windows在没有管理员权限的情况下配置环境变量",
+    "cover": "/articles/Windows在没有管理员权限的情况下配置环境变量/cover.webp",
+    "preview": "Windows在没有管理员权限时，无法打开「高级系统设置」窗口，因此难以配置环境变量。这种情况下，可以使用命令行打开环境变量编辑窗口。按下Win+R，运行：rundll32 sysdm.cpl,EditEnvironmentVariables ，即可配置用户级环境变量。",
+    "time": "2025-10-16 14:51 UTC+8",
+    "tags": "技术,Windows,环境变量"
+  },
+  {
+    "title": "更纱黑体这么多版本，要怎么选？",
+    "cover": "https://picx.zhimg.com/80/v2-e16dd72c6434730d5f250d6692e7dc0b.webp",
+    "preview": "字体家族名称：sarasa。每个文件名都由它开头，代表这是更纱黑体家族的字体。字体风格 (Style)：fixed。字体风格决定了西文字符的字形，分为 Gothic、UI、Mono、Term、Fixed 五种。详见下图。字体衬线：slab。只有一部分文件有这个部分，代表其加入了衬线，数字和字母的笔画末端有短线修饰。汉字字形 (Orthography)：cl。根据不同国家和地区的标准，字形分为 CL、HC、J、K、SC、TC 六种，例如中国大陆、中国香港、日本的“冷”字写法都不一样，详见下图。字重：regular。这一项代表的是字体的粗细，从细到粗为 extralight、light、regular、semibold、bold。加上 italic 后缀的为意大利体 (斜体)。后缀名：ttf。最通用的字体格式，不解释。",
+    "time": "2025-07-28 18:14 UTC+8",
+    "tags": "技术,设计,字体,汉字文化圈"
+  }
+]

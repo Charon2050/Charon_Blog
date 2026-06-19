@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="renderer" content="webkit" />
+
+        <link rel="stylesheet" href="/style.css" />
+        <link rel="icon" type="image/png" href="/favicon.ico" />
+
+        <title>卡戎博客 - 设计，不止视觉</title>
+
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                gap: 1rem
+            }
+            h1 {
+                font-size: 4rem;
+                margin: 4rem 0 0 0;
+            }
+            p {
+                margin: 0;
+            }
+        </style>
+    </head>
+
+    <body>
+        <script type="module" src="/components/site-header.js"></script>
+        <site-header></site-header>
+
+        <h1>404</h1>
+        <p>页面不存在。可能是链接错误或页面已被删除。</p>
+        <button class="primary" onclick="window.history.back()">返回</button>
+        <button onclick="window.open('https://chatgpt.com/?prompt=网页显示404错误通常是为什么？', '_blank')">为什么会这样?</button>
+
+        <script type="module" src="/components/site-footer.js"></script>
+        <site-footer></site-footer>
+
+        <script>
+        </script>
+    </body>
+</html>

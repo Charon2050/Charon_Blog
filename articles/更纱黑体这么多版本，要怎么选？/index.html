@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="renderer" content="webkit" />
+        <link rel="stylesheet" href="/style.css" />
+        <link rel="icon" type="image/png" href="/favicon.ico" />
+        <title>更纱黑体这么多版本，要怎么选？</title>
+        <meta
+            name="description"
+            content="字体家族名称：sarasa。每个文件名都由它开头，代表这是更纱黑体家族的字体。字体风格 (Style)：fixed。字体风格决定了西文字符的字形，分为 Gothic、UI、Mono、Term、Fixed 五种。详见下图。字体衬线：slab。只有一部分文件有这个部分，代表其加入了衬线，数字和字母的笔画末端有短线修饰。汉字字形 (Orthography)：cl。根据不同国家和地区的标准，字形分为 CL、HC、J、K、SC、TC 六种，例如中国大陆、中国香港、日本的“冷”字写法都不一样，详见下图。字重：regular。这一项代表的是字体的粗细，从细到粗为 extralight、light、regular、semibold、bold。加上 italic 后缀的为意大利体 (斜体)。后缀名：ttf。最通用的字体格式，不解释。"
+        />
+    </head>
+
+    <body>
+        <script type="module" src="/components/article-page.js"></script>
+        <article-page>
+            <h1>更纱黑体这么多版本，要怎么选？</h1>
+            <p>
+                最近知乎上讨论<a target="_blank" href="https://github.com/be5invis/Sarasa-Gothic" >Sarasa Gothic</a>（更纱黑体）这款字体的热度比较高，我也去下载来把玩了一下。从Github上下载了发布为ttf格式的字体后，发现220MB的压缩包里竟压缩了10GB共480个ttf文件。
+            </p>
+            <p>
+                如果是没接触过字体设计的朋友，可能会对着这么一大包文件感到一头雾水，因此在此罗列这些字体文件的含义，帮助各位挑选安装需要的字体。
+            </p>
+            <p>
+                观察这样一个文件名：
+            </p>
+            <code>
+                sarasa-fixed-slab-cl-regular.ttf
+            </code>
+            <p>
+                发现它由6部分组成，分别是:
+            </p>
+            <ol>
+                <li>字体家族名称：sarasa。每个文件名都由它开头，代表这是更纱黑体家族的字体。</li>
+                <li>字体风格 (Style)：fixed。字体风格决定了西文字符的字形，分为 Gothic、UI、Mono、Term、Fixed 五种。详见下图。</li>
+                <li>字体衬线：slab。只有一部分文件有这个部分，代表其加入了衬线，数字和字母的笔画末端有短线修饰。</li>
+                <li>汉字字形 (Orthography)：cl。根据不同国家和地区的标准，字形分为 CL、HC、J、K、SC、TC 六种，例如中国大陆、中国香港、日本的“冷”字写法都不一样，详见下图。</li>
+                <li>字重：regular。这一项代表的是字体的粗细，从细到粗为 extralight、light、regular、semibold、bold。加上 italic 后缀的为意大利体 (斜体)。</li>
+                <li>后缀名：ttf。最通用的字体格式，不解释。</li>
+            </ol>
+            <img src="https://picx.zhimg.com/80/v2-e16dd72c6434730d5f250d6692e7dc0b.webp" />
+            <img src="https://pic1.zhimg.com/80/v2-a1f928e4f2b741e8e01137a8b523c731.webp" />
+            <img src="https://picx.zhimg.com/80/v2-27e9a1ab7fe2f891b5b3d75b8de1b6fc.webp" />
+            <p>
+                因此，看懂了文件名，就可以根据自己的需求选择合适的字体。
+            </p>
+            <p>
+                举个例子，我需要用于编程，同时不喜欢把「>=」连成「≥」，则选择等宽、不连字的<b>Fixed</b>风格。我不喜欢花哨的衬线，则选择<b>不带slab</b>的风格。我身处中国大陆，接触的文本都是简体中文，所以选择<b>SC</b>汉字字形。
+            </p>
+            <p>
+                根据以上需求，选择所有以<code>sarasa-fixed-sc-</code>开头的文件，安装进系统，就可以开始使用了。
+            </p>
+        </article-page>
+    </body>
+</html>
