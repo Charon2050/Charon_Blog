@@ -74,7 +74,7 @@ class NostrComments extends HTMLElement {
           .advancedOptionsContent #save, .advancedOptionsContent #cancle {
             width: 100%
           }
-          .comments-list {
+          #comments-list {
             list-style: none;
             margin: 0;
             padding: 0;
@@ -82,40 +82,40 @@ class NostrComments extends HTMLElement {
             flex-direction: column;
             gap: 1rem;
           }
-          .comments-list .comment {
+          #comments-list .comment {
             padding: 1rem;
             border-radius: 1rem;
           }
-          .comments-list .comment:hover {
+          #comments-list .comment:hover {
             background-color: #8888881A;
           }
-          .comments-list .comment .userinfo {
+          #comments-list .comment .userinfo {
             display: flex;
             align-items: center;
             gap: 0.5rem;
           }
-          .comments-list .comment .userinfo .avatar {
+          #comments-list .comment .userinfo .avatar {
             width: 2rem;
             height: 2rem;
             border-radius: 50%;
             color: #888;
             font-size: 2rem;
           }
-          .comments-list .comment .userinfo .nickname {
+          #comments-list .comment .userinfo .nickname {
             flex: 1;
             font-weight: bold;
           }
-          .comments-list .comment .userinfo .time {
+          #comments-list .comment .userinfo .time {
             font-size: 0.8rem;
             color: #888;
           }
-          .comments-list .comment .userinfo .delete {
+          #comments-list .comment .userinfo .delete {
             color: #C33;
             cursor: pointer;
             font-size: 1.2rem;
             transform: translateY(0.1rem);
           }
-          .comments-list .comment .content {
+          #comments-list .comment .content {
             margin: 0 2.5rem;
             font-size: 0.9rem;
           }
@@ -147,55 +147,17 @@ class NostrComments extends HTMLElement {
             <button id="cancle" type="button">取消</button>
           </form>
         </dialog>
-        <ul class="comments-list" id="comments-list">
-          <li class="comment">
-            <div class="userinfo">
-              <svg-icon class="avatar" src="/assets/icons/account_circle_24dp_FFFFFF_FILL1_wght400_GRAD0_opsz24.svg"></svg-icon>
-              <span class="nickname">测试用户</span>
-              <span class="time">2026-6-19 12:31 UTC+8</span>
-            </div>
-            <div class="content">
-              <p>这是一行测试评论。</p>
-            </div>
-          </li>
-          <li class="comment">
-            <div class="userinfo">
-              <svg-icon class="avatar" src="/assets/icons/account_circle_24dp_FFFFFF_FILL1_wght400_GRAD0_opsz24.svg"></svg-icon>
-              <span class="nickname">测试用户</span>
-              <span class="time">2026-6-19 12:31 UTC+8</span>
-            </div>
-            <div class="content">
-              <p>这是一行测试评论。</p>
-              <p>这是第二行。这一行比较长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长长。</p>
-            </div>
-          </li>
-          <li class="comment">
-            <div class="userinfo">
-              <svg-icon class="avatar" src="/assets/icons/account_circle_24dp_FFFFFF_FILL1_wght400_GRAD0_opsz24.svg"></svg-icon>
-              <span class="nickname">测试用户2</span>
-              <span class="time">2026-6-19 12:31 UTC+8</span>
-              <svg-icon class="delete" src="/assets/icons/delete_24dp_FFFFFF_FILL0_wght200_GRAD0_opsz24.svg"></svg-icon>
-            </div>
-            <div class="content">
-              <p>这是一行测试评论。</p>
-            </div>
-          </li>
+        <ul id="comments-list">
         </ul>
       `;
     }
     // 打开高级选项
     this.shadowRoot.getElementById("advanced").addEventListener("click", () => {
       // 此处待补充初始化操作
+      const secretKeyEl = this.shadowRoot.getElementById("secretKey");
+      secretKeyEl.value = localStorage.getItem("__nostr_comments_sk__");
       this.shadowRoot.getElementById("advancedOptions").showModal();
     });
-    // 关闭高级选项（点击对话框外部）
-    /*
-    this.shadowRoot.getElementById("advancedOptions").addEventListener("click", (e) => {
-      if (e.target === this.shadowRoot.getElementById("advancedOptions")) {
-        this.shadowRoot.getElementById("advancedOptions").close();
-      }
-    });
-    */
     // 关闭高级选项（点击X）
     this.shadowRoot.getElementById("close").addEventListener("click", () => {
       this.shadowRoot.getElementById("advancedOptions").close();
@@ -210,7 +172,7 @@ class NostrComments extends HTMLElement {
         alert("secretKey 格式不正确");
         return;
       }
-      // 待补充
+      // 待补充保存逻辑
     });
     // 关闭高级选项
     this.shadowRoot.getElementById("cancle").addEventListener("click", () => {
@@ -220,31 +182,44 @@ class NostrComments extends HTMLElement {
     this._load();
   }
   attributeChangedCallback(name, oldVal, newVal) {
-    if (name === "article-id" && oldVal !== newVal && this.isConnected) {
+    if (name === "article-id" && oldVal !== newVal) {
       this._load();
     }
   }
 
   get topic() {
-    return this.getAttribute("article");
+    return this.getAttribute("article-id");
   }
 
+  // 初始化：获取并插入评论
   async _load() {
+    // 如果还没加载好则不执行
+    if (!this.topic) {
+      return;
+    }
+    // 初始化客户端
     const ctx = await getCtx();
     const listEl = this.shadowRoot.getElementById("comments-list");
     listEl.textContent = "加载中...";
 
+    // 获取评论
     const comments = await api.fetchComments(ctx, this.topic);
+    // 如果没获取到，则判断是网络问题还是确实没评论
     if (comments.length === 0) {
       const canConnectAnyRelay = await api.canConnectAnyRelay(ctx);
       if (!canConnectAnyRelay) {
         listEl.textContent = "连接失败";
-        return
+        return;
+      } else {
+        listEl.textContent = "还没有评论哦";
+        return;
       }
     }
 
+    // 插入评论
     listEl.innerHTML = "";
     for (const c of comments) {
+      // 构造评论El
       const comment = document.createElement("li");
       comment.className = "comment";
       const userinfo = document.createElement("div");
@@ -285,7 +260,6 @@ class NostrComments extends HTMLElement {
         };
         userinfo.appendChild(deleteIcon);
       }
-
       listEl.appendChild(comment);
     }
     // 添加提交按钮事件

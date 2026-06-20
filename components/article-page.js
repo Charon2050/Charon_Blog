@@ -10,6 +10,7 @@ import "/components/article-card.js"
 
 class ArticlePage extends HTMLElement {
   connectedCallback() {
+    const title = decodeURIComponent(window.location.pathname.split("/").filter(Boolean).pop());
     const shadow = this.attachShadow({ mode: "open" });
     shadow.innerHTML = `
       <style>
@@ -42,9 +43,7 @@ class ArticlePage extends HTMLElement {
       <div class="article-page">
         <div class="article">
           <slot></slot>
-          <nostr-comments
-            article="charon-blog-comments-test-0002">
-          </nostr-comments>
+          <nostr-comments></nostr-comments>
         </div>
         <div class="sidebar">
           <owner-info></owner-info>
@@ -54,7 +53,8 @@ class ArticlePage extends HTMLElement {
       </div>
       <site-footer></site-footer>
     `;
-
+    const nostrCommentsEl = shadow.querySelector("nostr-comments");
+    nostrCommentsEl.setAttribute("article-id",title);
     const articlesRequest = fetch("/articles.json").then((response) => response.json())
 
     // 填入文章标签
@@ -79,7 +79,6 @@ class ArticlePage extends HTMLElement {
       // 根据推荐标题找到对应的文章对象
       const recommendedArticles = recommendedTitles.map(title => articles.find(a => a.title === title)).filter(Boolean);
       // 去除当前文章
-      const title = decodeURIComponent(window.location.pathname.split("/").filter(Boolean).pop());
       const selfIndex = recommendedArticles.findIndex(a => a.title === title);
       if (selfIndex !== -1) {
         recommendedArticles.splice(selfIndex, 1);
