@@ -87,7 +87,6 @@ class NostrComments extends HTMLElement {
             display: flex;
             flex-direction: column;
             gap: 1rem;
-            text-align: center;
           }
           #comments-list .comment {
             padding: 1rem;
