@@ -132,3 +132,13 @@ input:hover {
 input::placeholder {
     color: #888;
 }
+
+.skeleton {
+  animation: skeleton 2s ease-in-out infinite;
+}
+
+@keyframes skeleton {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.4; }
+  100% { opacity: 1; }
+}

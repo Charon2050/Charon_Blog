@@ -2,7 +2,13 @@ import "/components/svg-icon.js"
 import * as api from "/components/nostr-comments/comments-api.js";
 
 const ADMINS = ["17e9537a30382e7f4827714669dee433209c1e4ce87327c3d3e17fb6bdf35570"];
-const RELAYS = ["wss://relay.damus.io", "wss://nos.lol", "wss://relay.nostr.band"];
+const RELAYS = [
+  "wss://purplerelay.com", // 这个 relay 在中国大陆可用
+  "wss://relay.damus.io",
+  "wss://nos.lol",
+  "wss://relay.nostr.band",
+  "wss://nostr.mom"
+];
 let ctxPromise = null;
 function getCtx() {
   if (!ctxPromise) {
@@ -81,6 +87,7 @@ class NostrComments extends HTMLElement {
             display: flex;
             flex-direction: column;
             gap: 1rem;
+            text-align: center;
           }
           #comments-list .comment {
             padding: 1rem;
@@ -116,8 +123,24 @@ class NostrComments extends HTMLElement {
             transform: translateY(0.1rem);
           }
           #comments-list .comment .content {
-            margin: 0 2.5rem;
+            margin: 0 0 0 2.5rem;
             font-size: 0.9rem;
+          }
+          .skeleton {
+            border-radius:1rem;
+            background-color:#E0E0E0
+          }
+          svg-icon.placeholder {
+            width: 6rem;
+            height: 6rem;
+            font-size: 6rem;
+            margin: auto;
+            color: #88888844
+          }
+          p.placeholder {
+            font-size: 0.9rem;
+            margin: auto;
+            color: #88888888;
           }
         </style>
         <div class="comment-bar">
@@ -148,7 +171,26 @@ class NostrComments extends HTMLElement {
           </form>
         </dialog>
         <ul id="comments-list">
+          <li class="comment">
+            <div class="userinfo">
+              <div class="skeleton avatar"></div>
+              <span class="skeleton" style="height:1rem; width:5rem;"></span>
+              <span class="nickname"></span>
+              <span class="skeleton time" style="height:0.8rem; width:5rem;"></span>
+            </div>
+            <div class="skeleton content" style="height:1rem;"></div>
+          </li>
+          <li class="comment">
+            <div class="userinfo">
+              <div class="skeleton avatar"></div>
+              <span class="skeleton" style="height:1rem; width:5rem;"></span>
+              <span class="nickname"></span>
+              <span class="skeleton time" style="height:0.8rem; width:5rem;"></span>
+            </div>
+            <div class="skeleton content" style="height:1rem;"></div>
+          </li>
         </ul>
+
       `;
     }
     // 打开高级选项
@@ -200,7 +242,6 @@ class NostrComments extends HTMLElement {
     // 初始化客户端
     const ctx = await getCtx();
     const listEl = this.shadowRoot.getElementById("comments-list");
-    listEl.textContent = "加载中...";
 
     // 获取评论
     const comments = await api.fetchComments(ctx, this.topic);
@@ -208,10 +249,16 @@ class NostrComments extends HTMLElement {
     if (comments.length === 0) {
       const canConnectAnyRelay = await api.canConnectAnyRelay(ctx);
       if (!canConnectAnyRelay) {
-        listEl.textContent = "连接失败";
+        listEl.innerHTML = `
+          <svg-icon class="placeholder" src="/assets/icons/android_wifi_4_bar_off_24dp_FFFFFF_FILL0_wght300_GRAD0_opsz24.svg"></svg-icon>
+          <p class="placeholder">无法连接到Nostr Relays</p>
+          `;
         return;
       } else {
-        listEl.textContent = "还没有评论哦";
+        listEl.innerHTML = `
+          <svg-icon class="placeholder" src="/assets/icons/add_comment_24dp_FFFFFF_FILL0_wght300_GRAD0_opsz24.svg"></svg-icon>
+          <p class="placeholder">还没有评论哦</p>
+          `;
         return;
       }
     }
