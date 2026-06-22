@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="renderer" content="webkit" />
+        <link rel="stylesheet" href="/style.css" />
+        <link rel="icon" type="image/png" href="/favicon.ico" />
+        <title>Markdown Editor</title>
+        <style>
+            .mdeditor-page {
+                box-sizing: border-box;
+                padding: 1rem 2rem;
+                display: flex;
+                flex-direction: row;
+                height: calc(100vh - 3rem);
+                width: 100vw;
+                gap: 1rem;
+            }
+            .files {
+                width: 10rem;
+                display: flex;
+                flex-direction: column;
+                padding: 0;
+            }
+            .files li {
+                list-style: none;
+                padding: 1rem 1rem;
+                cursor: pointer;
+                border-radius: 999rem;
+                line-height: 1rem;
+            }
+            .files li:hover {
+                background-color: #88888822;
+            }
+            #editor, #preview {
+                box-sizing: border-box;
+                flex: 1;
+                padding: 1rem;
+                border-radius: 1rem;
+                height: 100%;
+                border: none;
+            }
+            #editor {
+                background-color: #88888822;
+                font-family: monospace;
+            }
+        </style>
+    </head>
+
+    <body>
+        <script type="module" src="/components/site-header.js"></script>
+        <site-header></site-header>
+        <div class="mdeditor-page">
+            <ul class="files">
+                <li>
+                    测试文章1
+                </li>
+                <li>
+                    测试文章2
+                </li>
+            </ul>
+            <textarea id="editor">
+
+            </textarea>
+            <div id="preview">
+
+            </div>
+        </div>
+        <script type="module" src="/components/site-footer.js"></script>
+        <site-footer></site-footer>
+        <script>
+            const editor = document.querySelector('#editor');
+            const preview = document.querySelector('#preview');
+
+            editor.value = `# 测试标题\n\n测试正文`
+        </script>
+    </body>
+</html>
