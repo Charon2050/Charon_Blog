@@ -32,7 +32,7 @@ class ArticlePage extends HTMLElement {
           }
           .sidebar {
             position: sticky;
-            top: 6rem;
+            top: 7rem;
             width: 16rem;
             display: flex;
             flex-direction: column;
@@ -59,7 +59,6 @@ class ArticlePage extends HTMLElement {
 
     // 填入文章标签
     articlesRequest.then((articles) => {
-      const title = decodeURIComponent(window.location.pathname.split("/").filter(Boolean).pop());
       const article = articles.find((a) => a.title === title);
       if (article) {
         const tags = article.tags || "";

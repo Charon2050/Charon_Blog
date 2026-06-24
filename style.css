@@ -72,6 +72,7 @@ dialog[open]::backdrop {
 
 img {
     max-width: 100%;
+    max-height: 60vh;
     height: auto;
     border-radius: 1rem;
 }
@@ -86,6 +87,7 @@ h1:first-child {
 p {
     line-height: 1.5;
     margin: 1rem 0;
+    /* letter-spacing: 0.4px; */
 }
 a {
     color: inherit;
@@ -139,10 +141,6 @@ article-page a {
 }
 article-page img {
     margin: 1rem 0;
-    max-width: 100%;
-    max-height: 60vh;
-    height: auto;
-    border-radius: 1rem;
     box-shadow: 0 0 0.5rem #88888833;
 }
 textarea {

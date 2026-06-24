@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="renderer" content="webkit" />
+        <link rel="stylesheet" href="/style.css" />
+        <link rel="icon" type="image/png" href="/favicon.ico" />
+        <title>关于本站</title>
+        <meta
+            name="description"
+            content="███████████████████████████████"
+        />
+    </head>
+
+    <body>
+        <script type="module" src="/components/article-page.js"></script>
+        <article-page>
+            <h1>关于本站</h1>
+            <img src="https://pic1.zhimg.com/v2-eaf1d37935710670a520c65df4cb09ce.jpg" alt="《魔法少女小圆》中成神的鹿目圆和成为恶魔的晓美焰" title="by Rella (Pixiv@163536)">
+            <p>
+                这里是卡戎Charon的个人网站。
+            </p>
+            <p>
+                这里会不定期更新博客文章、碎碎念（短动态）和一些小工具，希望这些东西有所帮助。如页脚所言，这些内容全部进入公有领域，任何人都可以随意使用这些内容，包括但不限于分享、商用、修改、训练AI。无需署名，无需询问。
+            </p>
+            <p>
+                不过，如果愿意，还请在引用到时告诉我一声。这不是强制的，只是为了满足卡戎对于「究竟有多少人用到了这个网站」这种事的好奇心。
+            </p>
+            <p>
+                网站里可能有些页面包含裸露、政治敏感、AI生成的内容，但会有所提示。
+            </p>
+            <hr>
+            <p>
+                以下是技术细节。
+            </p>
+            <p>
+                这个网站只用到了前端三件套（HTML + CSS + JS），没有任何<span title="Vue、React等">框架</span>。同时，这个网站是完全静态的，没有后端。理论上，甚至可以在断网状态下靠缓存继续浏览这个网站。
+            </p>
+            <p>
+                你可能会好奇，既然没有后端，评论功能是如何运作的？事实上，评论内容储存在<a href="https://fiatjaf.com/nostr.html">Nostr网络</a>上。Nostr是一个多中心网络，评论会被同时储存在多个中继服务器（Relay）中。
+            </p>
+
+        </article-page>
+    </body>
+</html>
