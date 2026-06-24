@@ -20,6 +20,7 @@ class ArticlePage extends HTMLElement {
             width: 100%;
           }
           .article-page {
+            padding-top: 4rem;
             width: fit-content;
             margin: auto;
             display: flex;
@@ -30,7 +31,6 @@ class ArticlePage extends HTMLElement {
             max-width: 40rem;
           }
           .sidebar {
-            margin-top: 4rem;
             position: sticky;
             top: 6rem;
             width: 16rem;

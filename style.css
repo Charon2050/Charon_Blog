@@ -70,10 +70,18 @@ dialog[open]::backdrop {
     }
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 1rem;
+}
 h1 {
     font-weight: normal;
     margin-top: 4rem;
     font-size: 2.4rem;
+}
+h1:first-child {
+    margin-top: 0;
 }
 p {
     line-height: 1.5;
@@ -87,14 +95,37 @@ a:hover {
     text-decoration: underline;
 }
 code {
-    font-family: Consolas, "Courier New", monospace;
+    font-family: "Sarasa Fixed SC", Consolas, "Courier New", monospace;
     background-color: #88888822;
     padding: 0.2rem 0.4rem;
     border-radius: 0.4rem;
     line-height: 1.5;
 }
-ol {
+pre code {
+    padding: 1rem;
+    display: block;
+    border-radius: 1rem;
+    overflow-x: auto;
+}
+ul, ol {
     padding-left: 1.5rem;
+}
+table {
+  border-collapse: separate;   /* 允许单元格间隙 */
+  border-spacing: 0.2rem;      /* 所有格子间距 0.2rem */
+  border: none;                /* 表格无边框 */
+  border-radius: 1.5rem;         /* 外侧圆角 1rem */
+  overflow: hidden;            /* 裁剪超出圆角的背景 */
+}
+th, td {
+    border: none;
+    background-color: #88888822; /* 半透明灰（约13%不透明度） */
+    padding: 0.5rem 1rem;
+}
+hr {
+    border: none;
+    border-top: 1px solid #88888855;
+    margin: 2rem 1rem;
 }
 span[title] {
   text-decoration-line: underline;
@@ -113,6 +144,9 @@ article-page img {
     height: auto;
     border-radius: 1rem;
     box-shadow: 0 0 0.5rem #88888833;
+}
+textarea {
+    resize: none;
 }
 input {
     height: 2rem;
