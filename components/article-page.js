@@ -16,7 +16,6 @@ class ArticlePage extends HTMLElement {
       <style>
           :host {
             display: block;
-            width: fit-content;
             width: 100%;
           }
           .article-page {
@@ -37,6 +36,22 @@ class ArticlePage extends HTMLElement {
             display: flex;
             flex-direction: column;
             gap: 2rem;
+          }
+          @media (max-width: 800px) {
+            .article-page {
+              flex-direction: column;
+              gap: 1rem;
+              width: inherit;
+            }
+            .article {
+              max-width: 100%;
+            }
+            .sidebar {
+              width: inherit;
+            }
+            owner-info {
+              display: none;
+            }
           }
       </style>
       <site-header></site-header>

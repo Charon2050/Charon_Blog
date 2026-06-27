@@ -15,22 +15,20 @@
                 padding: 0;
             }
             .cover-line {
+                overflow: hidden;
                 margin: 0 auto;
-                background-image: url("cover.webp");
                 width: 100%;
                 max-width: 135rem;
                 height: 36rem;
-                background-size: cover;
-                background-position: center;
                 box-sizing: border-box;
-            }
-            .cover-line {
-                color: white;
                 padding-top: 6rem;
                 padding-left: 50%;
+                background-image: url("cover.webp");
+                background-size: cover;
+                background-position: center;
+                color: white;
                 text-shadow: 0 0 4rem rgba(0, 0, 0, 0.5);
                 font-family: Helvetica, Arial, sans-serif;
-                margin: 0 auto 4rem auto;
             }
             .cover-line .website-name {
                 font-size: 1.2rem;
@@ -92,16 +90,19 @@
                 font-size: 0.8rem;
             }
             .main-flow {
-                width: fit-content;
-                margin: auto;
+                width: 100%;
+                margin: 4rem auto 0 auto;
                 display: flex;
                 gap: 4rem;
                 align-items: flex-start;
+                justify-content: center;
             }
             .article-list {
                 display: flex;
                 flex-direction: column;
                 gap: 3rem;
+                width: 100%;
+                max-width: 42rem;
             }
             .site-info {
                 position: sticky;
@@ -126,6 +127,20 @@
                 display: flex;
                 flex-wrap: wrap;
                 gap: 0.5rem;
+            }
+            @media (max-width: 800px) {
+                body {
+                    padding: 0 1rem;
+                }
+                .main-flow {
+                    margin-top: 1rem;
+                }
+                .cover-line {
+                    display: none;
+                }
+                .site-info {
+                    display: none; /* 日后改成从侧边通过菜单按钮弹出 */
+                }
             }
         </style>
     </head>

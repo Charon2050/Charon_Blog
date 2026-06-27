@@ -78,6 +78,7 @@ dialog[open]::backdrop {
 }
 
 img {
+    display: block;
     max-width: 100%;
     max-height: 60vh;
     height: auto;
@@ -157,7 +158,8 @@ textarea {
 }
 input {
     height: 2rem;
-    min-width: 20rem;
+    width: 100%;
+    min-width: 8rem;
     font-size: 0.85rem;
     line-height: 1rem;
     padding: 0.5rem 1rem;

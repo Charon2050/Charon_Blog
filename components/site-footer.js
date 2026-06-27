@@ -32,6 +32,11 @@ class SiteFooter extends HTMLElement {
           line-height: 0.7rem;
           color: #999;
         }
+        @media (max-width: 800px) {
+          .links {
+            gap: 1.5rem;
+          }
+        }
       </style>
       <div class="site-footer">
         <div class="links">

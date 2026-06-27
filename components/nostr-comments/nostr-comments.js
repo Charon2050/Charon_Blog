@@ -37,7 +37,8 @@ class NostrComments extends HTMLElement {
             transform: translateY(-0.13rem);
           }
           .comment-bar #content {
-            width: 100%;
+            flex-grow: 1;
+            width: 0;
           }
           .comment-bar {
             display: flex;
@@ -51,7 +52,10 @@ class NostrComments extends HTMLElement {
             gap: 1rem;
             justify-content: space-between;
             align-items: center;
-            min-width: 24rem;
+            min-width: 15rem;
+          }
+          .field label {
+            flex-shrink: 0;
           }
           .advancedOptionsContent {
             display: flex;
@@ -87,6 +91,8 @@ class NostrComments extends HTMLElement {
             display: flex;
             flex-direction: column;
             gap: 1rem;
+            min-height: 11rem;
+            justify-content: center;
           }
           #comments-list .comment {
             padding: 1rem;
@@ -133,13 +139,13 @@ class NostrComments extends HTMLElement {
             width: 6rem;
             height: 6rem;
             font-size: 6rem;
-            margin: auto;
-            color: #88888844
+            color: #88888844;
+            margin: 0 auto;
           }
           p.placeholder {
             font-size: 0.9rem;
-            margin: auto;
             color: #88888888;
+            margin: 0 auto;
           }
         </style>
         <div class="comment-bar">

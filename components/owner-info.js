@@ -29,7 +29,7 @@ class OwnerInfo extends HTMLElement {
           justify-content: space-around;
         }
         .contacts svg-icon {
-          font-size: 2rem;
+          font-size: 1.8rem;
           color: #666;
         }
       </style>

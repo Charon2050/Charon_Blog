@@ -49,7 +49,7 @@ class RelatedArticles extends HTMLElement {
     const articles = JSON.parse(this.getAttribute("articles") || "[]");
 
     // url = article.url || `/articles/${article.title}`
-    const url = article => article.url || `/articles/${article.title}`;
+    const url = article => article.url || `/articles/${encodeURIComponent(article.title)}`;
 
     this.shadowRoot.querySelector(".related-articles").innerHTML =
       articles.map(article => `<a class="article" href="${url(article)}">${article.title}</a>`).join("");
