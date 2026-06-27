@@ -77,8 +77,7 @@ class SiteHeader extends HTMLElement {
           <!--<svg-icon class="site-icon" src="/assets/icons/charon2026.svg"></svg-icon>-->
           <div id="site-title"><b>Charon</b> Blog</div>
           <div class="desktop-bar">
-            <a href="/">最新</a>
-            <div>标签</div>
+            <a href="/">文章</a>
             <a href="/tools">实用工具</a>
             <a href="/about">关于</a>
             <div class="input-box">

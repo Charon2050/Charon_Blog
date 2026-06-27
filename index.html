@@ -247,7 +247,7 @@
                     }
 
                     // 尝试寻找默认封面
-                    const defaultCover = `/articles/${article.title}/cover.webp`;
+                    const defaultCover = `/articles/${encodeURIComponent(article.title)}/cover.webp`;
                     fetch(defaultCover, { method: "HEAD" }).then((res) => {
                         if (res.ok) {
                             articleCard.setAttribute("cover", defaultCover);
