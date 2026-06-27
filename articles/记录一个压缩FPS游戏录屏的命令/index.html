@@ -32,9 +32,7 @@
             <p>
                 于是询问了Gemini，得到了这样的命令（<code>-vf</code>参数是1080p尺寸的中心区域，如果你的原视频不是1080p的，请修改此参数）：
             </p>
-            <code>
-                ffmpeg -i input.mp4 -vf "addroi=x=720:y=405:w=480:h=270:qoffset=-20/51" -c:v libx264 -crf 40 -preset veryslow -c:a aac -b:a 128k output_roi.mp4
-            </code>
+            <pre><code>ffmpeg -i input.mp4 -vf "addroi=x=720:y=405:w=480:h=270:qoffset=-20/51" -c:v libx264 -crf 40 -preset veryslow -c:a aac -b:a 128k output_roi.mp4</code></pre>
             <p>
                 这个命令把外围画面的画质指定为40（很糊），中心一小块的质量则是大约20（比较清晰）。为了确保兼容性，用的是H.264编码封装的.mp4格式。为了得到极限的画质:体积比，把编码器调到了最慢的那一档，可能会执行很久。
             </p>

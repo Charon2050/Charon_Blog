@@ -25,7 +25,7 @@ class ArticleCard extends HTMLElement {
               transition: background-color 0.2s;
           }
           .article-card:hover {
-              background-color: #aa888820;
+              background-color: #88888820;
               cursor: pointer;
           }
           .article-card .cover {
@@ -77,7 +77,7 @@ class ArticleCard extends HTMLElement {
       `;
       shadow.querySelector(".article-card").addEventListener("click", () => {
         const title = this.getAttribute("title") || "";
-        const link = this.getAttribute("link") || `/articles/${title}`;
+        const link = this.getAttribute("link") || `/articles/${encodeURIComponent(title)}`;
         window.location.href = link;
       });
     }

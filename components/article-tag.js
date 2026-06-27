@@ -30,7 +30,7 @@ class ArticleTag extends HTMLElement {
     shadow.appendChild(this.wrapper);
 
     // 初始化颜色
-    const color = this.getAttribute('color') || '#BB0000';
+    const color = this.getAttribute('color') || '#CC0000';
     this.updateColor(color);
   }
 

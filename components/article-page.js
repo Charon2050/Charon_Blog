@@ -5,8 +5,8 @@ import "/components/article-tags.js";
 import "/components/related-articles.js"
 import "/components/recommend.js"
 import "/components/nostr-comments/nostr-comments.js"
-
-import "/components/article-card.js"
+import "/components/link-card.js"
+import "/components/hover-tooltip.js"
 
 class ArticlePage extends HTMLElement {
   connectedCallback() {

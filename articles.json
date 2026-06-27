@@ -19,5 +19,12 @@
     "preview": "字体家族名称：sarasa。每个文件名都由它开头，代表这是更纱黑体家族的字体。字体风格 (Style)：fixed。字体风格决定了西文字符的字形，分为 Gothic、UI、Mono、Term、Fixed 五种。详见下图。字体衬线：slab。只有一部分文件有这个部分，代表其加入了衬线，数字和字母的笔画末端有短线修饰。汉字字形 (Orthography)：cl。根据不同国家和地区的标准，字形分为 CL、HC、J、K、SC、TC 六种，例如中国大陆、中国香港、日本的“冷”字写法都不一样，详见下图。字重：regular。这一项代表的是字体的粗细，从细到粗为 extralight、light、regular、semibold、bold。加上 italic 后缀的为意大利体 (斜体)。后缀名：ttf。最通用的字体格式，不解释。",
     "time": "2025-07-28 18:14 UTC+8",
     "tags": "技术,设计,字体,汉字文化圈"
+  },
+  {
+    "title": "土耳其的发电船为冈比亚提供了60%电力",
+    "cover": "/articles/土耳其的发电船为冈比亚提供了60%电力/koray-bey-3.webp",
+    "preview": "2018年，冈比亚国家水电公司NAWEC和Karpowership签署协议，要求Karpowership为冈比亚国家电网提供30兆瓦电力。2018年3月，Karpowership把一艘36兆瓦的Karadeniz发电船Koray Bey开到了班珠尔近海锚地，过海底电缆接入冈比亚国家电网。",
+    "time": "2026-06-26 11:59 UTC+8",
+    "tags": "科技,国际,地理"
   }
 ]
