@@ -19,12 +19,12 @@
             <h1>penv：修改环境变量实现任意软件便携化</h1>
             <link-card
                 title="penv: Run any programs in portable mode in Windows"
-                preview="在便携目录下运行程序的 Windows 脚本。&#10;https://github.com/Charon2050/penv"
+                preview="在便携目录下运行程序的 Windows 脚本。https://github.com/Charon2050/penv"
                 icon="/assets/icons/github.svg"
                 link="https://github.com/Charon2050/penv">
             </link-card>
             <p>
-                大部分规范的软件会将配置文件、缓存等持久化信息储存在<a target="_blank" href="https://chatgpt.com/?prompt=请通俗易懂的介绍：环境变量">环境变量</a>指定的路径。因此，只要修改环境变量，就可以使软件从其它位置读写配置文件，从而实现<hover-tooltip tip="使软件不用安装、可保留数据在多台不同的电脑间转移">便携化</hover-tooltip>。
+                大部分规范的软件会将配置文件、缓存等持久化信息储存在<a target="_blank" href="https://chat.qwen.ai/?text=请通俗易懂的介绍：环境变量">环境变量</a>指定的路径。因此，只要修改环境变量，就可以使软件从其它位置读写配置文件，从而实现<hover-tooltip tip="使软件不用安装、可保留数据在多台不同的电脑间转移">便携化</hover-tooltip>。
             </p>
             <p>
                 所以我写了这样的脚本，在启动时修改常用的环境变量（只是临时的，在此脚本中生效），从而让任意软件便携化。当然，这只能对规范的软件生效，如果软件把目录写死到<code>D:/360Driver</code>之类的，自然就不会生效了。
