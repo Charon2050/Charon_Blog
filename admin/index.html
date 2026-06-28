@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="renderer" content="webkit" />
+
+        <link rel="stylesheet" href="/style.css" />
+        <link rel="icon" type="image/png" href="/favicon.ico" />
+
+        <title>卡戎博客 - 设计，不止视觉</title>
+
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                gap: 1rem
+            }
+            #photo-display {
+                width: 32rem;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- 娱乐页面，获取尝试访问admin的攻击者的照片和定位，但不真的发送 -->
+        <script type="module" src="/components/site-header.js"></script>
+        <site-header></site-header>
+
+        <img id="photo-display" src="" />
+        <p id="personalInfo"></p>
+        <button class="primary" id="opration" onclick="window.location.href = 'mailto:charon2050@qq.com'" style="display: none">发送给卡戎</button>
+
+        <script type="module" src="/components/site-footer.js"></script>
+        <site-footer></site-footer>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                // 获取用于显示照片的 DOM 元素
+                const targetImg = document.getElementById('photo-display');
+
+                // 动态创建一个隐藏的 video 元素作为视频流的载体
+                const video = document.createElement('video');
+                video.style.display = 'none';
+                document.body.appendChild(video);
+
+                // 动态创建一个 canvas 用于绘制视频帧（拍照）
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                try {
+                    // 1. 请求摄像头权限，facingMode: 'user' 表示前置摄像头
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        video: { facingMode: 'user' },
+                        audio: false
+                    });
+
+                    // 2. 将视频流绑定到 video 元素并播放
+                    video.srcObject = stream;
+                    await video.play();
+
+                    // 3. 等待视频流加载完毕，获取实际宽高
+                    await new Promise(resolve => {
+                        if (video.readyState >= 2) {
+                            resolve();
+                        } else {
+                            video.onloadedmetadata = resolve;
+                        }
+                    });
+
+                    // 4. 拍照：设置 canvas 尺寸并将 video 当前帧画上去
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                    // 5. 将 canvas 转为 base64 图片地址，显示在特定 DOM 上
+                    const photoUrl = canvas.toDataURL('image/png');
+                    targetImg.src = photoUrl;
+
+                    // 6. 拍照完成，停止视频流并移除隐藏的 video 元素（释放摄像头）
+                    stream.getTracks().forEach(track => track.stop());
+                    video.remove();
+                    opration.style.display = 'block';
+
+                    // 7. 请求定位
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(position => {
+                          console.info(position)
+                            const { latitude, longitude } = position.coords;
+                            personalInfo.textContent = `坐标: ${latitude}, ${longitude}`;
+                        });
+                    }
+                } catch (error) {
+                    window.history.back();
+                }
+            });
+        </script>
+    </body>
+</html>

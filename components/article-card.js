@@ -69,9 +69,19 @@ class ArticleCard extends HTMLElement {
               font-size: 0.75rem;
               line-height: 0.75rem;
           }
+          .article-card .text-area .info .tags {
+              display: flex;
+              gap: 0.5rem;
+              /* 通过允许换行+限制高度，实现只显示能放下的1行，多余不可见 */
+              width: 100%;
+              flex-wrap: wrap;
+              height: 1.25rem;
+              overflow: hidden;
+          }
           .article-card .text-area .info .time {
               margin-left: auto;
               color: #888888;
+              white-space: nowrap;
           }
           @container card (max-width: 32rem) {
               .article-card {
@@ -89,11 +99,11 @@ class ArticleCard extends HTMLElement {
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 2;
               }
+              .article-card .text-area .info {
+                margin-top: 0;
+              }
               .article-card .text-area .info .time {
                 margin-left: inherit;
-              }
-              article-tag {
-                display: none;
               }
           }
         </style>
@@ -133,9 +143,11 @@ class ArticleCard extends HTMLElement {
         <h2>${title}</h2>
         <p>${preview}</p>
         <div class="info">
+          <div class="tags">
           ${tags
             .map(tag => `<article-tag>${tag}</article-tag>`)
             .join("")}
+          </div>
           <div class="time">${time}</div>
         </div>
       </div>
