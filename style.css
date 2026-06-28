@@ -112,12 +112,14 @@ code {
     padding: 0.2rem 0.4rem;
     border-radius: 0.4rem;
     line-height: 1.5;
+    margin: 0 0.3rem;
 }
 pre code {
     padding: 1rem;
     display: block;
     border-radius: 1rem;
     overflow-x: auto;
+    margin: 0;
 }
 ul, ol {
     padding-left: 1.5rem;
@@ -153,6 +155,20 @@ article-page img {
     margin: 1rem 0;
     box-shadow: 0 0 0.5rem #88888833;
 }
+figure {
+    margin: 1rem 0;
+    width: inherit;
+    display: inline-block;
+}
+figure img {
+    margin: 0;
+}
+figure figcaption {
+    color: #888;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
 textarea {
     resize: none;
 }

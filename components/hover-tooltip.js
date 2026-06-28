@@ -31,6 +31,7 @@ class HoverTooltip extends HTMLElement {
             font-size: 0.75rem;
             border-radius: 0.5rem;
             box-shadow: 0 0 0.8rem #88888866;
+            font-weight: normal;
 
             display: none;
             z-index: 9999;

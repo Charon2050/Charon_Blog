@@ -11,9 +11,9 @@ class LinkCard extends HTMLElement {
         <style>
           :host {
             display: block;
-            width: fit-content;
-            max-width: 100%;
             margin: 0 auto;
+            container-name: card;
+            container-type: inline-size;
           }
           .link-card {
             text-decoration-line: none;
@@ -56,10 +56,8 @@ class LinkCard extends HTMLElement {
           .link-card .text-area p {
             font-size: small;
             overflow: hidden;
-            line-clamp: 2;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
+            white-space: nowrap;
+            text-overflow: ellipsis;
             color: #888888;
           }
           .link-card .text-area .info {
@@ -73,6 +71,11 @@ class LinkCard extends HTMLElement {
           .link-card .text-area .info .time {
             margin-left: auto;
             color: #888888;
+          }
+          @container card (max-width: 32rem) {
+            .link-card {
+              padding: 1rem;
+            }
           }
         </style>
         <a class="link-card" target='_blank'></a>

@@ -36,6 +36,7 @@ class ArticlePage extends HTMLElement {
             display: flex;
             flex-direction: column;
             gap: 2rem;
+            flex-shrink: 0;
           }
           @media (max-width: 800px) {
             .article-page {

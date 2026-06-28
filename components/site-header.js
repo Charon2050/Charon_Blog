@@ -7,7 +7,10 @@ class SiteHeader extends HTMLElement {
       <style>
         :host {
           display: block;
+          width: 100%;
           height: 3rem;
+          container-name: card;
+          container-type: inline-size;
         }
         .top-bar {
           width: 100%;
@@ -59,7 +62,7 @@ class SiteHeader extends HTMLElement {
         .input-box:hover {
           background-color: #88888833;
         }
-        @media (max-width: 800px) {
+        @container card (max-width: 40rem) {
           .top-bar {
             padding: 1rem 2rem;
           }

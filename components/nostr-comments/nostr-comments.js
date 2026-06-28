@@ -151,7 +151,7 @@ class NostrComments extends HTMLElement {
         <div class="comment-bar">
           <input type="text" id="content" placeholder="说点什么吧"></input>
           <button class="primary" id="submit">评论</button>
-          <button id="advanced">···</button>
+          <button id="advanced" aria-label="更多">···</button>
         </div>
         <dialog id="advancedOptions">
           <form class="advancedOptionsContent">
