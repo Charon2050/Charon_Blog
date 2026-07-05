@@ -37,6 +37,11 @@ class SiteFooter extends HTMLElement {
             gap: 1.5rem;
           }
         }
+        @media (max-width: 23rem) {
+          .links {
+            display: none;
+          }
+        }
       </style>
       <div class="site-footer">
         <div class="links">

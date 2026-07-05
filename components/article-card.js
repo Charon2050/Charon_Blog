@@ -40,6 +40,7 @@ class ArticleCard extends HTMLElement {
               min-width: 0;
               display: flex;
               flex-direction: column;
+              justify-content: center;
               gap: 0.5rem;
           }
           .article-card .text-area h2,

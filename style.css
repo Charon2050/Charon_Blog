@@ -1,13 +1,35 @@
+/* 全局样式 */
 :root {
-    text-autospace: normal;
+    text-autospace: normal; /* 自动加中英文间距 */
 }
-* {
-  scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
+@view-transition {
+    navigation: auto; /* 自动加页面间过渡动画 */
+}
+* { /* 滚动条样式 */
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    font-family: "HarmonyOS Sans SC", "HONOR Sans CN", "Source Han Sans CN", "Noto Sans CJK", "Source Han Sans", "Noto Sans";
 }
 *:hover {
-  scrollbar-color: #88888888 transparent;
+    scrollbar-color: #88888888 transparent;
 }
+body {
+    min-height: 100vh;
+    padding: 0 1rem;
+    margin: 0;
+    background-color: #eeeeee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 图片样式 */
+img {
+    display: block;
+    border-radius: 1rem;
+}
+
+/* 按钮样式 */
 button {
     line-height: 1rem;
     padding: 0.5rem 1rem;
@@ -27,16 +49,8 @@ button.primary {
 button.primary:hover {
     background-color: #101010E0;
 }
-body {
-    min-height: 100vh;
-    padding: 0 1rem;
-    margin: 0;
-    background-color: #eeeeee;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 
+/* 对话框样式 */
 dialog {
     border: none;
     border-radius: 1rem;
@@ -60,7 +74,6 @@ dialog[open] {
         transform: scale(0.9);
     }
 }
-
 dialog::backdrop {
     background: #00000000;
     transition:
@@ -77,13 +90,44 @@ dialog[open]::backdrop {
     }
 }
 
-img {
-    display: block;
-    max-width: 100%;
-    max-height: 60vh;
-    height: auto;
-    border-radius: 1rem;
+/* 输入框样式 */
+label {
+    white-space: nowrap;
 }
+textarea {
+    resize: none;
+}
+input {
+    height: 2rem;
+    width: 100%;
+    min-width: 8rem;
+    font-size: 0.85rem;
+    line-height: 1rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    font-family: inherit;
+    border-radius: 1rem;
+    background-color: #88888822;
+    box-sizing: border-box;
+}
+input:hover {
+    background-color: #88888833;
+}
+input::placeholder {
+    color: #888;
+}
+
+/* 骨架屏样式 */
+.skeleton {
+  animation: skeleton 2s ease-in-out infinite;
+}
+@keyframes skeleton {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+/* 文章样式 */
 h1, h2, h3, h4, h5, h6 {
     font-weight: normal;
 }
@@ -94,9 +138,8 @@ h1 {
 h1:first-child {
     margin-top: 0;
 }
-p {
+p, blockquote, pre {
     line-height: 1.5;
-    margin: 1.5rem 0;
     /* letter-spacing: 0.4px; */
 }
 a {
@@ -121,6 +164,11 @@ pre code {
     overflow-x: auto;
     margin: 0;
 }
+hr {
+    border: none;
+    border-top: 1px solid #88888855;
+    margin: 2rem 1rem;
+}
 ul, ol {
     padding-left: 1.5rem;
 }
@@ -136,68 +184,37 @@ th, td {
     background-color: #88888822; /* 半透明灰（约13%不透明度） */
     padding: 0.5rem 1rem;
 }
-hr {
-    border: none;
-    border-top: 1px solid #88888855;
-    margin: 2rem 1rem;
-}
-span[title] {
-  text-decoration-line: underline;
-  text-decoration-style: dotted;
-  text-underline-offset: 0.2em;
-  text-decoration-color: rgb(0 0 0 / 50%);
-  cursor: help;
-}
-article-page a {
-    color: #202080;
-}
-article-page img {
-    margin: 1rem 0;
-    box-shadow: 0 0 0.5rem #88888833;
+blockquote {
+    font-style: italic;
+    /* font-family: 'Times New Roman', Times, serif; */
+    color: #000000AA;
+    margin-left: 2rem;
+    margin-right: 2rem;
 }
 figure {
-    margin: 1rem 0;
+    margin: 0;
     width: inherit;
     display: inline-block;
-}
-figure img {
-    margin: 0;
 }
 figure figcaption {
     color: #888;
     text-align: center;
     font-size: 0.9rem;
 }
-
-textarea {
-    resize: none;
+article-page a {
+    color: #202080;
 }
-input {
-    height: 2rem;
-    width: 100%;
-    min-width: 8rem;
-    font-size: 0.85rem;
-    line-height: 1rem;
-    padding: 0.5rem 1rem;
-    border: none;
-    font-family: inherit;
-    border-radius: 1rem;
-    background-color: #88888822;
-    box-sizing: border-box;
+article-page img {
+    margin: 0;
+    max-width: 100%;
+    max-height: 60vh;
+    height: auto;
+    box-shadow: 0 0 0.5rem #88888833;
 }
-input:hover {
-    background-color: #88888833;
+article-page > :not(hr):not(:last-child) {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
 }
-input::placeholder {
-    color: #888;
-}
-
-.skeleton {
-  animation: skeleton 2s ease-in-out infinite;
-}
-
-@keyframes skeleton {
-  0%   { opacity: 1; }
-  50%  { opacity: 0.4; }
-  100% { opacity: 1; }
+figure img {
+    margin: 0 0 0.5rem 0;
 }

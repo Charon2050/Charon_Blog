@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="renderer" content="webkit" />
+        <link rel="stylesheet" href="/style.css" />
+        <link rel="icon" type="image/png" href="/favicon.ico" />
+        <title>真实LLM模型检测器</title>
+        <meta
+            name="description"
+            content="在上文相同时，同一个大模型返回不同Token的概率是固定的，通过logprobs参数可以获取其概率表，成为大模型独一无二的指纹。此工具通过比对大模型返回随机数的概率，推测API提供商背后所使用的真实模型。"
+        />
+
+        <style>
+            #page {
+                margin: auto;
+                max-width: 32rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 1rem;
+            }
+            h1 {
+                text-align: center;
+            }
+            p {
+                margin: 0;
+                text-align: center;
+            }
+            .detail {
+                color: #888;
+                font-size: 0.8rem;
+            }
+            .api-info {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+                margin: 2rem 0;
+            }
+            label {
+                display: flex;
+                gap: 1rem;
+                align-items: center;
+            }
+            #checkModel {
+                width: 100%;
+                max-width: 24rem;
+            }
+            #debugOutput {
+                word-break: break-all;
+            }
+        </style>
+    </head>
+
+    <body>
+        <script src="/components/deving-notice.js"></script>
+        <script type="module" src="/components/site-header.js"></script>
+        <site-header></site-header>
+
+        <div id="page">
+            <h1>真﻿实L﻿L﻿M模﻿型检﻿测﻿器</h1>
+            <p class="detail">在上文相同时，同一个大模型返回不同Token的概率是固定的，通过<code>logprobs</code>参数可以获取其概率表，成为大模型的特征。</p>
+            <p class="detail">此工具通过比对大模型返回随机数的概率分布，推测API提供商背后所使用的真实模型。</p>
+            <form class="api-info">
+                <label for="baseUrl">
+                    BaseURL
+                    <input id="baseUrl" name="baseUrl" placeholder="https://example.com/api/v1"></input>
+                </label>
+                <label for="apikey">
+                    API Key
+                    <input id="apikey" name="apikey" placeholder="sk-xxxxxxxxxxx"></input>
+                </label>
+                <label for="model">
+                    Model
+                    <input id="model" name="model" placeholder="claude-5-opus" list="model-list"></input>
+                    <datalist id="model-list">
+                    </datalist>
+                </label>
+            </form>
+            <button id="checkModel" class="primary">检测模型</button>
+            <div id="resultEl" style="display: none;">
+                <p id="resultInfoEl">此模型最有可能是:</p>
+                <h2 id="modelNameEl"></h2>
+            </div>
+            <p id="debugOutput" class="detail">
+
+            </p>
+        </div>
+
+        <script type="module" src="/components/site-footer.js"></script>
+        <site-footer></site-footer>
+
+        <script>
+            function getBaseURL() {
+                let baseUrl = document.getElementById('baseUrl').value.trim();
+                if (!baseUrl) return '';
+                // 如果以 # 结尾，则直接返回去掉#和末尾斜杠（如有）的URL
+                if (baseUrl.endsWith('#')) {
+                  return baseUrl.slice(0, -1).replace(/\/$/, '');
+                }
+                // 取消末尾斜杠
+                baseUrl = baseUrl.replace(/\/$/, '');
+                // 正则匹配：如果末尾没有 /v1 或 /v2 /v3 ... 等其他数字，则添加 /v1
+                if (!baseUrl.match(/\/v\d+$/)) {
+                    return baseUrl + '/v1';
+                }
+                return baseUrl
+            }
+
+            async function getModelList() {
+                const baseUrl = getBaseURL();
+                const apikey = document.getElementById('apikey').value;
+                if (!baseUrl || !apikey) return;
+
+                try {
+                    const response = await fetch(`${baseUrl}/models`, {
+                        method: 'GET',
+                        headers: { 'Authorization': `Bearer ${apikey}` },
+                    });
+                    const data = await response.json();
+                    const modelList = data.data;
+                    /* modelList = [{"id":"deepseek-v4-flash","object":"model","owned_by":"deepseek"},{"id":"deepseek-v4-pro","object":"model","owned_by":"deepseek"}] */
+                    const modelListEl = document.getElementById('model-list');
+                    modelListEl.innerHTML = '';
+                    modelList.forEach(model => {
+                        const option = document.createElement('option');
+                        option.value = model.id;
+                        modelListEl.appendChild(option);
+                    });
+                } catch (error) {
+
+                }
+            }
+            // BaseURL APIKey 失焦时获取模型列表
+            document.getElementById('baseUrl').addEventListener('blur', getModelList);
+            document.getElementById('apikey').addEventListener('blur', getModelList);
+
+            const userPrompt = "Please directly output a random number between 0 and 100.";
+            const probsFingerprintDict = {
+              "Deepseek V4 Flash (2026-6)": ["42","0","87","78","89","73","7","75","72","79","83","76","82","65","37","57","67","97","84","77"],
+              "Deepseek V4 Pro (2026-6)": ["42","63","47","43","64","58","54","73","74","72","37","46","45","53","57","48","65","62","68","59"],
+
+              "Doubao Seed 1.6 Vision 250815": ["4","7","Here","6","5","A","The","To","3","Let","8","Random","2","Just","As","So","Sure","Generate","\\","I"],
+              "Doubao Seed 1.6 Flash 250828": ["4","5","7","3","6","2","8","1","Here","To","The","Let","9","I","Random","Ah","0","Actually","My","```"],
+              "Doubao Seed 1.6 251015": ["4","7","6","5","3","8","2","To","1","The","9","Here","Let","A","Random","Just","Your","0","It","Fort"],
+              "Doubao Seed 2.0 Mini 260428": ["4","3","Here","7","2","6","The","Let","###","#","---","["," Forty","Sure","For","What","Fort","There","Ask","Your"],
+              "Doubao Seed 2.0 Lite 260428": ["4","7","6","5","Here","A","Fort","8","3","以下","Random","Our","Following","The","Let","四十七","My","<","Please"," Sevent"],
+              "Doubao Seed 2.0 Pro 260215": ["4","7","3","6","5","2","1","8","The","Here","9","To","\n","Let","三十七","There"," ","四十七","You","<[EOS_never_used_51bce0c785ca2f68081bfa7d91973934]>"],
+              "Doubao Seed 2.1 Turbo 260628": ["7","4","6","3","5","8","\n","2","1","To","Here","9","The","It","<","A","I"," ","Let","<[EOS_never_used_51bce0c785ca2f68081bfa7d91973934]>"],
+              "Doubao Seed 2.1 Pro 260828": ["7","4","6","5","3","1","The","8","2","I","Let","0","Here","Please","9","A","To","If","\\","You"],
+              "Doubao Seed Evolving": ["7","4","6","5","3","1","The","8","2","I","Let","A","Please","0","\\","9","Here","<[EOS_never_used_51bce0c785ca2f68081bfa7d91973934]>","To","If"],
+              "GPT-3.5 Turbo": ["72","73","74","67","57","76","63","79","68","82","64","71","62","87","78","77","83","58","56","47"],
+              "GPT-4o Mini 2024-07-18": ["42","57","73","47","67","72","37","63","74","43","68","45","54","53","58","87","76","62","65","77"],
+              "GPT-4o 2024-05-13": ["42","57","27","47","73","67","83","72","37","74","62","63","84","53","78","54","82","76","87","43"],
+              "GPT-4o 2024-08-06": ["57","42","37","27","73","47","72","17","67","54","63","43","62","56","28","53","58","78","23","34"],
+              "GPT-4o 2024-11-20": ["42","27","57","17","47","37","87","73","83","23","72","43","67","82","84","63","28","25","53","24"],
+              "GPT-4 Turbo": ["42","37","47","73","83","43","87","57","53","72","63","38","74","67","93","71","52","84","17","34"],
+              "GPT-4": ["42","27","57","17","47","37","73","87","83","67","23","43","82","72","84","63","53","25","24","28"],
+            };
+            // 计算列表相似度
+            function listSimilarity(l, dict) {
+              const N = l.length;
+              const posL = new Map();
+              for (let i = 0; i < N; i++) {
+                posL.set(l[i], i);
+              }
+              function score(arr) {
+                let sum = 0;
+                for (let i = 0; i < arr.length; i++) {
+                  const v = arr[i];
+                  if (!posL.has(v)) continue;
+                  const dist = Math.abs(posL.get(v) - i);
+                  const s = 1 - dist / (N - 1);
+                  sum += s;
+                }
+                return sum / N; // 归一化到 0~1
+              }
+              const res = {};
+              for (const [k, arr] of Object.entries(dict)) {
+                res[k] = score(arr);
+              }
+              return res;
+            }
+            // 根据相似度查找模型名称
+            async function checkModel() {
+                const baseUrl = getBaseURL();
+                const apikey = document.getElementById('apikey').value;
+                const model = document.getElementById('model').value;
+                if (!baseUrl || !apikey || !model) {
+                  document.getElementById('debugOutput').innerText = '请填写完整的BaseURL、APIKey和模型名称';
+                  return;
+                }
+                try {
+                  const response = await fetch(`${baseUrl}/chat/completions`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apikey}`},
+                    body: JSON.stringify({
+                      model: model,
+                      messages: [{ role: 'user', content: userPrompt }],
+                      max_tokens: 16,
+                      temperature: 1,
+                      top_p: 1,
+                      logprobs: true,
+                      top_logprobs: 20,
+                      thinking: {type: "disabled"},
+                      reasoning: { effort: "none"},
+                      stream: false
+                    }),
+                  });
+                  const data = await response.json();
+                  /* 将List data.choices[0].logprobs.content[0].top_logprobs的token字段提取出来*/
+                  probsFingerprint = data.choices[0].logprobs.content[0].top_logprobs.map(item => item.token);
+                  debugOutput.textContent = "概率分布：" + JSON.stringify(probsFingerprint);
+
+                  similarityList = Object.keys(probsFingerprintDict).map(key => ({ key, similarity: listSimilarity(probsFingerprint, probsFingerprintDict)[key] }));
+                  similarityList.sort((a, b) => b.similarity - a.similarity);
+                  debugOutput.textContent += "\n相似度：" + JSON.stringify(similarityList);
+                  const modelName = similarityList[0].key;
+                  console.info(`Model name: ${modelName}`);
+                  modelNameEl.textContent = modelName;
+                  resultEl.style.display = 'block';
+                } catch (error) {
+                  debugOutput.textContent = `Error: ${error}`;
+                }
+            }
+            document.getElementById('checkModel').addEventListener('click', async () => {
+              resultEl.style.display = 'none';
+              await checkModel();
+            });
+        </script>
+    </body>
+</html>
