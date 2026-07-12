@@ -49,6 +49,36 @@ button.primary {
 button.primary:hover {
     background-color: #101010E0;
 }
+/* 按钮涟漪效果 */
+.ripple,
+button {
+    position:relative;
+    overflow:hidden;
+    transform:translate3d(0,0,0);
+}
+.ripple:after,
+button:after{
+    content:"";
+    display:block;
+    position:absolute;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    pointer-events:none;
+    background-image:radial-gradient(circle,#888 10%,transparent 10.01%);
+    background-repeat:no-repeat;
+    background-position:50%;
+    transform:scale(10,10);
+    opacity:0;
+    transition:transform .5s,opacity 1s;
+}
+.ripple:active:after,
+button:active:after{
+    transform:scale(0,0);
+    opacity:.2;
+    transition:0s;
+}
 
 /* 对话框样式 */
 dialog {
@@ -97,9 +127,15 @@ label {
 textarea {
     resize: none;
 }
-input {
+input[type="range"] {
+    background-color: transparent;
+}
+select,
+textarea,
+input:not([type]),
+input[type="text"] {
     height: 2rem;
-    width: 100%;
+    width: 16rem;
     min-width: 8rem;
     font-size: 0.85rem;
     line-height: 1rem;
@@ -110,11 +146,43 @@ input {
     background-color: #88888822;
     box-sizing: border-box;
 }
-input:hover {
+select:hover,
+textarea:hover,
+input:not([type]):hover,
+input[type="text"]:hover {
     background-color: #88888833;
 }
 input::placeholder {
     color: #888;
+}
+select {
+    appearance: base-select;
+}
+/* 滑动条 */
+input[type="range"] {
+    height: 3rem;
+    cursor: pointer;
+    accent-color: #822;
+}
+input[type="range"]::-moz-range-track {
+    height: 1rem;
+    border-radius: 1rem;
+    background: #ddd;
+}
+input[type="range"]::-moz-range-progress {
+    height: 1rem;
+    border-radius: 1rem 0 0 1rem;
+    background: #822;
+}
+input[type="range"]::-moz-range-thumb {
+    width: 0.25rem;
+    height: 2.5rem;
+    background: #822;
+    border-radius: 1rem;
+    border: 0.25rem solid #EEEEEE;
+}
+input[type="range"]:active::-moz-range-thumb {
+    background: #A22;
 }
 
 /* 骨架屏样式 */

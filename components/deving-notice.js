@@ -1,5 +1,18 @@
 (() => {
   "use strict";
+  const style = document.createElement("style");
+  style.textContent = `
+    #deving-notice-dialog {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    #deving-notice-dialog:not([open]) {
+      display: none;
+    }
+  `;
+  document.head.appendChild(style);
 
   // 页面加载完成后再弹出
   window.addEventListener("DOMContentLoaded", () => {
@@ -9,7 +22,6 @@
     }
 
     const dialog = document.createElement("dialog");
-    dialog.style = "display: flex; flex-direction: column; align-items: center; gap: 0.5rem;";
     dialog.id = "deving-notice-dialog";
 
     const icon = document.createElement("div");

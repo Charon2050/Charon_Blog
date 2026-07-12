@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="renderer" content="webkit" />
+        <link rel="stylesheet" href="/style.css" />
+        <link rel="icon" type="image/png" href="/favicon.ico" />
+        <title>HTTP Pressure Test</title>
+        <style>
+        #main {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            text-align: center;
+            max-width: 32rem;
+            margin: 4rem auto;
+        }
+        label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+        }
+        textarea {
+            width: 100%;
+            min-height: 8rem;
+        }
+        select,
+        input {
+            flex: 1;
+        }
+        button {
+            width: 100%;
+        }
+        #result {
+            text-align: left;
+            font-family: monospace;
+        }
+
+
+        </style>
+    </head>
+
+    <body>
+        <script src="/components/deving-notice.js"></script>
+        <script type="module" src="/components/site-header.js"></script>
+        <site-header></site-header>
+
+        <div id="main">
+            <h1>HTTP 压测工具</h1>
+
+            <label>
+                请求 URL:
+                <input id="url" type="text" size="80" value="https://example.com" />
+            </label>
+
+            <label>
+                HTTP 方法:
+                <select id="method">
+                    <option>GET</option>
+                    <option>POST</option>
+                    <option>PUT</option>
+                    <option>PATCH</option>
+                    <option>DELETE</option>
+                </select>
+            </label>
+
+            <label> Header(JSON): </label>
+            <textarea id="headers" rows="6" cols="80">
+    {
+        "Content-Type": "application/json"
+    }
+    </textarea>
+
+            <label> Body: </label>
+            <textarea id="body" rows="6" cols="80"></textarea>
+
+            <label>
+                QPS:
+                <input id="qps" type="range" min="1" max="512" value="10" />
+                <span id="qpsValue" style="width: 3rem">10</span>
+            </label>
+
+            <button id="start" class="primary ripple">开始</button>
+            <button id="stop" class="ripple">停止</button>
+
+            <p>
+                已发送:
+                <span id="sent">0</span>
+                成功:
+                <span id="success">0</span>
+                失败:
+                <span id="failed">0</span>
+            </p>
+
+            <hr />
+
+            <div id="result"></div>
+        </div>
+
+        <script>
+            const $ = (id) => document.getElementById(id);
+
+            let running = false;
+            let timer = null;
+
+            let stat = {
+                sent: 0,
+                success: 0,
+                failed: 0,
+            };
+
+            $("qps").oninput = () => {
+                $("qpsValue").textContent = $("qps").value;
+            };
+
+            $("start").onclick = () => {
+                if (running) return;
+
+                running = true;
+
+                stat = {
+                    sent: 0,
+                    success: 0,
+                    failed: 0,
+                };
+
+                updateStat();
+
+                const qps = Number($("qps").value);
+
+                const interval = 1000 / qps;
+
+                const startTime = performance.now();
+
+                const loop = async () => {
+                    if (!running) return;
+
+                    if (performance.now() - startTime >= 30000) {
+                        stop();
+                        return;
+                    }
+
+                    sendRequest();
+
+                    timer = setTimeout(loop, interval);
+                };
+
+                loop();
+            };
+
+            $("stop").onclick = stop;
+
+            function stop() {
+                running = false;
+
+                if (timer) {
+                    clearTimeout(timer);
+                    timer = null;
+                }
+            }
+
+            async function sendRequest() {
+                const url = $("url").value;
+
+                const method = $("method").value;
+
+                let headers = {};
+
+                try {
+                    headers = JSON.parse($("headers").value || "{}");
+                } catch (e) {
+                    addResult({
+                        error: "Header JSON 解析失败: " + e.message,
+                    });
+                    return;
+                }
+
+                const bodyText = $("body").value;
+
+                const options = {
+                    method,
+                    headers,
+                    credentials: "include",
+                };
+
+                if (method !== "GET" && method !== "HEAD" && bodyText) {
+                    options.body = bodyText;
+                }
+
+                const begin = performance.now();
+
+                stat.sent++;
+                updateStat();
+
+                try {
+                    const response = await fetch(url, options);
+
+                    const time = performance.now() - begin;
+
+                    let text = "";
+
+                    try {
+                        text = await response.text();
+                    } catch (e) {
+                        text = String(e);
+                    }
+
+                    if (response.ok) {
+                        stat.success++;
+                    } else {
+                        stat.failed++;
+                    }
+
+                    addResult({
+                        status: response.status,
+
+                        time: time.toFixed(2) + " ms",
+
+                        detail: {
+                            url,
+                            method,
+                            headers,
+                            body: bodyText,
+                            responseHeaders: Object.fromEntries(
+                                response.headers,
+                            ),
+                            responseBody: text,
+                        },
+                    });
+                } catch (e) {
+                    const time = performance.now() - begin;
+
+                    stat.failed++;
+
+                    addResult({
+                        status: "ERROR",
+
+                        time: time.toFixed(2) + " ms",
+
+                        detail: {
+                            error: e.toString(),
+                        },
+                    });
+                }
+
+                updateStat();
+            }
+
+            function addResult(data) {
+                const detail = document.createElement("details");
+
+                const summary = document.createElement("summary");
+
+                if (data.error) {
+                    summary.textContent = data.error;
+                } else {
+                    summary.textContent = `状态: ${data.status} | 时间: ${data.time}`;
+                }
+
+                const pre = document.createElement("pre");
+
+                pre.textContent = JSON.stringify(data.detail, null, 2);
+
+                detail.appendChild(summary);
+
+                detail.appendChild(pre);
+
+                $("result").prepend(detail);
+            }
+
+            function updateStat() {
+                $("sent").textContent = stat.sent;
+
+                $("success").textContent = stat.success;
+
+                $("failed").textContent = stat.failed;
+            }
+            </script>
+    </body>
+</html>

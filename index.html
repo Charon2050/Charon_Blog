@@ -236,6 +236,7 @@
             fetch("/articles.json").then((response) => response.json()).then((articles) => {
                 articles.forEach((article) => {
                     const articleCard = document.createElement("article-card");
+                    articleCard.classList.add("ripple");
                     articleCard.setAttribute("title",   article.title   || "No Title");
                     articleCard.setAttribute("preview", article.preview || "");
                     articleCard.setAttribute("time",    article.time    || "");
