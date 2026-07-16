@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="renderer" content="webkit" />
+        <link rel="stylesheet" href="/style.css" />
+        <link rel="icon" type="image/png" href="/favicon.ico" />
+        <title>Bilibili短链生成</title>
+        <style>
+            .detail {
+                color: #888;
+                font-size: small;
+            }
+            #url-bar {
+                display: flex;
+                gap: 0.5rem;
+                margin: 1rem 0;
+                width: 100%;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            details {
+                margin: 1rem 0;
+                color: #888;
+                font-size: small;
+                width: 100%;
+                max-width: 22rem;
+            }
+            #advanced-options {
+                margin: 1rem 0;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            label {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+                flex-wrap: wrap;
+            }
+            label > input {
+                flex-grow: 1;
+            }
+        </style>
+    </head>
+
+    <body>
+        <script src="/components/deving-notice.js"></script>
+        <script type="module" src="/components/site-header.js"></script>
+        <site-header></site-header>
+
+
+            <h1>Bilibili短链生成</h1>
+            <h2>创建b23.tv短链接</h2>
+            <p class="detail">注：仅支持 <code>*.bilibili.com</code> 等Blibili域名。</p>
+
+            <div id="url-bar">
+                <input id="url" placeholder="https://bilibili.com/BVxxxxxxxx">
+                <button class="primary">创建短链</button>
+            </div>
+            <details>
+                <summary>高级选项</summary>
+                <div id="advanced-options">
+                    <label>
+                        CORS代理
+                        <input id="cors" value="https://cros-proxy.charon2050.cn/api/proxy=">
+                    </label>
+                    <label>
+                        BUVID
+                        <input id="BUVID" value="charon2050.cn">
+                    </label>
+                </div>
+            </details>
+
+
+
+        <script>
+        </script>
+    </body>
+</html>

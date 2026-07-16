@@ -1,6 +1,13 @@
 /* 全局样式 */
 :root {
     text-autospace: normal; /* 自动加中英文间距 */
+    font-family: "HarmonyOS Sans SC", "HONOR Sans CN", "Source Han Sans CN", "Noto Sans CJK", "Source Han Sans", "Noto Sans";
+    --main-color: #CC0000; /* 主题色 */
+    --background-0-light: #F0F0F0;
+    --background-0-dark: #202020;
+    --primary-light: #101010;
+    --primary-dark: #eee;
+
 }
 @view-transition {
     navigation: auto; /* 自动加页面间过渡动画 */
@@ -8,16 +15,16 @@
 * { /* 滚动条样式 */
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;
-    font-family: "HarmonyOS Sans SC", "HONOR Sans CN", "Source Han Sans CN", "Noto Sans CJK", "Source Han Sans", "Noto Sans";
 }
 *:hover {
     scrollbar-color: #88888888 transparent;
 }
 body {
-    min-height: 100vh;
+    /* min-height: 100vh; */
     padding: 0 1rem;
     margin: 0;
-    background-color: #eeeeee;
+    background-color: var(--background-0-light);
+    
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -43,11 +50,11 @@ button:hover {
     cursor: pointer;
 }
 button.primary {
-    background-color: #101010FF;
+    background-color: var(--primary-light);
     color: white;
 }
 button.primary:hover {
-    background-color: #101010E0;
+    background-color: color-mix(in srgb, var(--primary-light) 60%, #888);
 }
 /* 按钮涟漪效果 */
 .ripple,
@@ -162,7 +169,7 @@ select {
 input[type="range"] {
     height: 3rem;
     cursor: pointer;
-    accent-color: #822;
+    accent-color: color-mix(in srgb, var(--main-color) 60%, #888);
 }
 input[type="range"]::-moz-range-track {
     height: 1rem;
@@ -172,17 +179,17 @@ input[type="range"]::-moz-range-track {
 input[type="range"]::-moz-range-progress {
     height: 1rem;
     border-radius: 1rem 0 0 1rem;
-    background: #822;
+    background: color-mix(in srgb, var(--main-color) 50%, #888);
 }
 input[type="range"]::-moz-range-thumb {
     width: 0.25rem;
     height: 2.5rem;
-    background: #822;
+    background: color-mix(in srgb, var(--main-color) 50%, #888);
     border-radius: 1rem;
-    border: 0.25rem solid #EEEEEE;
+    border: 0.25rem solid var(--background-0-light);
 }
 input[type="range"]:active::-moz-range-thumb {
-    background: #A22;
+    background: var(--main-color);
 }
 
 /* 骨架屏样式 */
@@ -255,7 +262,7 @@ th, td {
 blockquote {
     font-style: italic;
     /* font-family: 'Times New Roman', Times, serif; */
-    color: #000000AA;
+    opacity: 80%;
     margin-left: 2rem;
     margin-right: 2rem;
 }

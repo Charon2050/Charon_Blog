@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="renderer" content="webkit" />
+        <link rel="stylesheet" href="/style.css" />
+        <link rel="icon" type="image/png" href="/favicon.ico" />
+        <title>███████████</title>
+        <meta
+            name="description"
+            content="███████████████████████████████"
+        />
+    </head>
+
+    <body>
+        <script type="module" src="/components/article-page.js"></script>
+        <article-page>
+            <h1>卡戎Bingo</h1>
+            <h2>5个连成一条线说明你和卡戎很像！</h2>
+            <style>
+                .matrix {
+                    display: grid;
+                    grid-template-columns: repeat(5, 1fr);
+                    grid-template-rows: repeat(5, 1fr);
+                    gap: 0.25rem;
+                    border-radius: 1rem;
+                    overflow: hidden;
+                    width: 100%;
+                    aspect-ratio: 1;
+                }
+
+                .matrix > label {
+                    border-radius: 0.25rem;
+                    background: #88888822;
+                    overflow: hidden;
+
+                    font-size: min(3vw, 1rem);
+
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
+                    white-space: normal;
+
+                }
+                .matrix > input {
+                    position: absolute;
+                    left: -9999px;
+                }
+            </style>
+            <div class="matrix">
+                <input id="a1" type="checkbox"><label for="a1">喜欢现代</label>
+                <input id="a2" type="checkbox"><label for="a2">喜欢雪</label>
+                <input id="a3" type="checkbox"><label for="a3">社恐</label>
+                <input id="a4" type="checkbox"><label for="a4">认为性别不重要</label>
+                <input id="a5" type="checkbox"><label for="a5">认为国别不重要</label>
+                <input id="b1" type="checkbox"><label for="b1">反版权 (Copyleft)</label>
+                <input id="b2" type="checkbox"><label for="b2">喜欢钱</label>
+                <input id="b3" type="checkbox"><label for="b3">不喜欢出汗</label>
+                <input id="b4" type="checkbox"><label for="b4">希望相同行为能得到相同结果</label>
+                <input id="b5" type="checkbox"><label for="b5">喜欢看百合番</label>
+                <input id="c1" type="checkbox"><label for="c1">认为人可以做不伤害他人的任何事</label>
+                <input id="c2" type="checkbox"><label for="c2">不生孩子</label>
+                <input id="c3" type="checkbox"><label for="c3">是人类</label>
+                <input id="c4" type="checkbox"><label for="c4">不信宗教</label>
+                <input id="c5" type="checkbox"><label for="c5"></label>
+                <input id="d1" type="checkbox"><label for="d1"></label>
+                <input id="d2" type="checkbox"><label for="d2"></label>
+                <input id="d3" type="checkbox"><label for="d3"></label>
+                <input id="d4" type="checkbox"><label for="d4"></label>
+                <input id="d5" type="checkbox"><label for="d5"></label>
+                <input id="e1" type="checkbox"><label for="e1"></label>
+                <input id="e2" type="checkbox"><label for="e2"></label>
+                <input id="e3" type="checkbox"><label for="e3"></label>
+                <input id="e4" type="checkbox"><label for="e4"></label>
+                <input id="e5" type="checkbox"><label for="e5"></label>
+            </div>
+        </article-page>
+    </body>
+</html>

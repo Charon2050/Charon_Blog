@@ -15,7 +15,7 @@ class SiteHeader extends HTMLElement {
         .top-bar {
           width: 100%;
           height: 3rem;
-          background-color: #EEEEEE;
+          background-color: var(--background-0-light);
           position: fixed;
           top: 0;
           left: 0;
