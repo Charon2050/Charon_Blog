@@ -8,9 +8,16 @@
         <link rel="icon" type="image/png" href="/favicon.ico" />
         <title>Bilibili短链生成</title>
         <style>
+            h2 {
+                margin-bottom: 0;
+            }
             .detail {
                 color: #888;
                 font-size: small;
+            }
+            #url-form {
+                width: 100%;
+                max-width: 22rem;
             }
             #url-bar {
                 display: flex;
@@ -24,8 +31,6 @@
                 margin: 1rem 0;
                 color: #888;
                 font-size: small;
-                width: 100%;
-                max-width: 22rem;
             }
             #advanced-options {
                 margin: 1rem 0;
@@ -43,6 +48,9 @@
             label > input {
                 flex-grow: 1;
             }
+            #shortUrl {
+                padding: 0.5rem 1rem;
+            }
         </style>
     </head>
 
@@ -56,27 +64,92 @@
             <h2>创建b23.tv短链接</h2>
             <p class="detail">注：仅支持 <code>*.bilibili.com</code> 等Blibili域名。</p>
 
-            <div id="url-bar">
-                <input id="url" placeholder="https://bilibili.com/BVxxxxxxxx">
-                <button class="primary">创建短链</button>
-            </div>
-            <details>
-                <summary>高级选项</summary>
-                <div id="advanced-options">
-                    <label>
-                        CORS代理
-                        <input id="cors" value="https://cros-proxy.charon2050.cn/api/proxy=">
-                    </label>
-                    <label>
-                        BUVID
-                        <input id="BUVID" value="charon2050.cn">
-                    </label>
+            <form id="url-form">
+                <div id="url-bar">
+                    <input id="url" placeholder="https://bilibili.com/BVxxxxxxxx">
+                    <button class="primary" disabled type="submit">创建短链</button>
                 </div>
-            </details>
-
-
-
+                <details>
+                    <summary>高级选项</summary>
+                    <div id="advanced-options">
+                        <label>
+                            CORS代理
+                            <input id="cors" value="https://cors-proxy.charon2050.cn/api/proxy?url=">
+                        </label>
+                        <label>
+                            BUVID
+                            <input id="BUVID" value="charon2050.cn">
+                        </label>
+                    </div>
+                </details>
+            </form>
+            <div id="result" style="display: none;">
+                <p>生成的短链接：</p>
+                <code id="shortUrl"></code>
+                <button id="copy">复制</button>
+            </div>
         <script>
+            const urlInput = document.getElementById('url');
+
+            urlInput.addEventListener('input', () => {
+                // 判断是否以 https://*bilibili.com 开头
+                const url = urlInput.value;
+                if (url.startsWith('https://') && url.includes('bilibili.com')) {
+                    createButton.disabled = false;
+                } else {
+                    createButton.disabled = true;
+                }
+            });
+
+            // 提交表单
+            const form = document.getElementById('url-form');
+            const createButton = form.querySelector('button[type="submit"]');
+            form.addEventListener('submit', async (event) => {
+                createButton.disabled = true;
+                event.preventDefault();
+                const build = "6500300"
+                const url = urlInput.value;
+                const cors = document.getElementById('cors').value;
+                const BUVID = document.getElementById('BUVID').value;
+                const apiUrl = `${cors}https://api.bilibili.com/x/share/click`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    referrerPolicy: "no-referrer",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                      "buvid": BUVID,
+                      "build": build,
+                      "platform": "web",
+                      "share_channel": "COPY",
+                      "share_mode": "3",
+                      "share_id": "public.webview.0.0.pv",
+                      "oid": url
+                    }),
+                });
+
+                const data = await response.json();
+                const shortUrl = data.data.content;
+                // 显示短链
+                const resultDiv = document.getElementById('result');
+                const shortUrlElement = document.getElementById('shortUrl');
+                shortUrlElement.textContent = shortUrl;
+                resultDiv.style.display = 'block';
+            });
+
+            // 复制短链
+            const copyButton = document.getElementById('copy');
+            copyButton.addEventListener('click', () => {
+                const shortUrl = document.getElementById('shortUrl').textContent;
+                navigator.clipboard.writeText(shortUrl).then(() => {
+                    alert('已复制到剪贴板');
+                }).catch((err) => {
+                    alert('复制失败，请手动复制：' + shortUrl);
+                });
+            });
+
         </script>
     </body>
 </html>

@@ -24,7 +24,7 @@ body {
     padding: 0 1rem;
     margin: 0;
     background-color: var(--background-0-light);
-    
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -45,7 +45,11 @@ button {
     background-color: #88888822;
     white-space: nowrap;
 }
-button:hover {
+button:disabled {
+    cursor: not-allowed;
+    background-color: #88888866;
+}
+button:not(:disabled):hover {
     background-color: #88888833;
     cursor: pointer;
 }
@@ -53,7 +57,11 @@ button.primary {
     background-color: var(--primary-light);
     color: white;
 }
-button.primary:hover {
+button.primary:disabled {
+    background-color: color-mix(in srgb, var(--primary-light) 30%, #888);
+    color: color-mix(in srgb, var(--background-0-light) 30%, #888);
+}
+button.primary:not(:disabled):hover {
     background-color: color-mix(in srgb, var(--primary-light) 60%, #888);
 }
 /* 按钮涟漪效果 */
